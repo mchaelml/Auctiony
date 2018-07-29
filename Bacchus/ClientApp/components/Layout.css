@@ -1,0 +1,27 @@
+﻿
+.container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    overflow: auto;
+}
+
+.main-nav {
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    overflow-x: hidden;
+}
+
+    .main-nav a {
+        text-decoration: none;
+        outline: none;
+    }
+
+@media (min-width: 640px) {
+    .main {
+        margin-left: 18em;
+    }
+}
