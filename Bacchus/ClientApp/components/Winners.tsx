@@ -144,7 +144,7 @@ class Winners extends React.Component<WinnersListProps, IWinnersListState> {
                     key: "Username",
                     minWidth: 0,
                     maxWidth: 250,
-                    name: "Name",
+                    name: "User Id",
                     isResizable: true,
                     onRender: (item: App.UserOffer) => {
                         return <p>{item.userId ? item.userId : ""}</p>;
@@ -158,7 +158,7 @@ class Winners extends React.Component<WinnersListProps, IWinnersListState> {
                     name: "Amount to be paid",
                     isResizable: true,
                     onRender: (item: App.UserOffer) => {
-                        return <p> {item.offer} </p>;
+                        return <p> {item.offer} &euro;  </p>;
                     },
                 },
                 {
