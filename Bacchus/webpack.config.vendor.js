@@ -31,6 +31,7 @@ module.exports = (env) => {
                 'dateformat',
                 'jquery',
                 'office-ui-fabric-react',
+                'react-ultimate-pagination',
                 'office-ui-fabric-core/dist/css/fabric.min.css'
             ],
         },

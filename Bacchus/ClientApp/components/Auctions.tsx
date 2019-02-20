@@ -17,6 +17,7 @@ import { Dialog, DialogType, DialogFooter } from "office-ui-fabric-react/lib/Dia
 import { IOverflowSetItemProps, OverflowSet } from "office-ui-fabric-react/lib/OverflowSet";
 import * as Auctions from "../store/AuctionStore";
 import { Dropdown, IDropdownOption } from "office-ui-fabric-react/lib/Dropdown";
+import Pagination from "../components/Pagination";
 
 
 
@@ -105,12 +106,12 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            hideDialog : true,
+            hideDialog: true,
             name: "",
             category: ["none"],
             description: "",
             endDate: null,
-            userOffer: { Id: 0, offer: 0, productId: "", userId: "", endTime : null }
+            userOffer: { id: 0, offer: 0, productId: "", userId: "", endTime: null }
         };
         this._onClickHandler = this._onClickHandler.bind(this);
     }
@@ -130,41 +131,41 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
         let pageIndex = parseInt(nextProps.match.params.pageIndex) || 1;
         let filter = nextProps.match.params.filter;
     }
-   
+
     onRowClick = (path: string) => {
         this.props.history.push(path);
     }
 
-    endDateChangeFabric = (date: Date | null | undefined ) : void => {
+    endDateChangeFabric = (date: Date | null | undefined): void => {
         this.setState({ endDate: date });
         this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, date, this.props.category);
 
         //  console.log(this.state.deliverydate);
-       // this.props.requestCallList(this.props.pageIndex, this.props.column || "customerCode", this.props.filter, this.props.desc, this.state.customerCode, this.state.customerName, this.state.company, date, this.state.dueDate);
+        // this.props.requestCallList(this.props.pageIndex, this.props.column || "customerCode", this.props.filter, this.props.desc, this.state.customerCode, this.state.customerName, this.state.company, date, this.state.dueDate);
         // this.props.history.push(`${SERVICE_URL}/calllist/all/${this.props.filter}/1`);
     }
-    formatDate = (date: Date) : string  => {
+    formatDate = (date: Date): string => {
         return DayPickerStrings.shortMonths[(date.getMonth())] + " " + date.getDate() + " " + date.getFullYear();
     }
 
     //  history.push + pageIndex=1 is needed here to change to the 1st page after filtering to not get stuck on an out of range page
-    handleFilterChange = (value : string, element : string) => {
+    handleFilterChange = (value: string, element: string) => {
         //  var value = e.target.value;
         switch (element) {
             case "name":
                 this.setState({ name: value });
-                this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, value,this.state.endDate, this.props.category);
+                this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, value, this.state.endDate, this.props.category);
 
-              //  this.props.requestCallList(null, this.props.column || "customerCode", this.props.filter, this.props.desc, this.state.customerCode, value, this.state.company, this.state.callDate, this.state.dueDate);
+                //  this.props.requestCallList(null, this.props.column || "customerCode", this.props.filter, this.props.desc, this.state.customerCode, value, this.state.company, this.state.callDate, this.state.dueDate);
                 //  this.props.history.push(`${SERVICE_URL}/deliveries/${this.props.filter}/1`);
                 break;
 
-            
-                //  if (value !== "") {
-              //  this.props.requestCallList(null, this.props.column || "customerCode", this.props.filter, this.props.desc, this.state.customerCode, this.state.customerName, value, this.state.callDate, this.state.dueDate);
-                //  this.props.history.push(`${SERVICE_URL}/deliveries/${this.props.filter}/1`);
-                // }
-               
+
+            //  if (value !== "") {
+            //  this.props.requestCallList(null, this.props.column || "customerCode", this.props.filter, this.props.desc, this.state.customerCode, this.state.customerName, value, this.state.callDate, this.state.dueDate);
+            //  this.props.history.push(`${SERVICE_URL}/deliveries/${this.props.filter}/1`);
+            // }
+
             case "category":
                 // this.setState({ company: value });
                 if (this.props.category[0] === "none" && this.props.category.length === 1) {
@@ -173,7 +174,7 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
 
                 } else {
                     console.log("hit this points : " + value);
-                    this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate,  this.props.category);
+                    this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate, this.props.category);
 
                 }
                 break;
@@ -197,20 +198,20 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
 
     clearInput = (input: string = "") => {
         switch (input) {
-            
+
             case "name":
                 this.setState({ name: "" });
-                this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc,"", this.state.endDate,  this.props.category);
+                this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, "", this.state.endDate, this.props.category);
                 break;
             case "category":
                 // console.log(this.state.regionList);
                 this.props.changeCategory(["none"]);
                 this.setState({ category: ["none"] }, () => {
-                    this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate,  this.props.category);
-                  });
+                    this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate, this.props.category);
+                });
                 break;
             case "enddate":
-                this.setState({ endDate : null })
+                this.setState({ endDate: null })
                 this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, null, this.props.category);
 
 
@@ -218,17 +219,17 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
                 this.setState({
                     name: "", endDate: null
                 });
-                this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate,  this.props.category);
+                this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate, this.props.category);
         }
     }
 
-    capitalizeFirstLetter = (string : string) => {
+    capitalizeFirstLetter = (string: string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    filterAction = ( event : any ) => {
+    filterAction = (event: any) => {
         event.preventDefault();
-        this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate,  this.props.category);
+        this.props.requestAuctionList(this.props.column, this.props.filter, this.props.desc, this.state.name, this.state.endDate, this.props.category);
 
         // this.props.history.push(`${SERVICE_URL}/deliveries/${this.props.filter}/1`);
     }
@@ -236,9 +237,10 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
     public render() {
         return <div className="ms-slideRightIn10">
             {this.renderOverFow()}
+            {console.log(this.props.auctionCategoryList)}
             <div className="ms-Grid-row" style={{ marginLeft: 0, marginRight: 10 }}>
                 {this.renderFilters()}
-                {/*  {this.filterActive() ? <Button bsSize="xs" style={{marginLeft: "7px"}} bsStyle="primary" onClick={this.clearInput}>Clear</Button> : ""} */} 
+                {/*  {this.filterActive() ? <Button bsSize="xs" style={{marginLeft: "7px"}} bsStyle="primary" onClick={this.clearInput}>Clear</Button> : ""} */}
             </div>
             {/*  {this.renderReportsTable()}  */}
             {this.renderOfferDialog()}
@@ -254,11 +256,11 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
 
 
     private _closeDialog(hideDialog: boolean) {
-        this.setState({ hideDialog: true, userOffer: { Id: 0, offer: 0, productId: "", userId: "", productEndDate: null, productDescription: "", productName: "", productCategory: "", endTime : null } });
+        this.setState({ hideDialog: true, userOffer: { id: 0, offer: 0, productId: "", userId: "", productEndDate: null, productDescription: "", productName: "", productCategory: "", endTime: null } });
     }
 
     private sortColumn(column: string) {
-        this.props.requestAuctionList(column, this.props.filter, this.props.desc, this.state.name, this.state.endDate,  this.props.category);
+        this.props.requestAuctionList(column, this.props.filter, this.props.desc, this.state.name, this.state.endDate, this.props.category);
 
     }
 
@@ -284,9 +286,9 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
         return newArray;
     }
 
-    remDub(array : any): any[] {
-        var result = array.reduce((unique : any, o : any) => {
-            if (!unique.find((obj : any) => obj.text === o.text && obj.key === o.key)) {
+    remDub(array: any): any[] {
+        var result = array.reduce((unique: any, o: any) => {
+            if (!unique.find((obj: any) => obj.text === o.text && obj.key === o.key)) {
                 unique.push(o);
             }
             return unique;
@@ -315,7 +317,7 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
         this.setState({ category: updatedSelectedItem },
             () => {
                 this.handleFilterChange(updatedSelectedItem.toString(), "category");
-        });
+            });
     }
 
 
@@ -341,15 +343,15 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
                 label="User"
                 placeholder="User"
                 // style={{ border: this.getValidationStateCommentsNote ? "" : "1px solid #a6a6a6" }}
-              //  onGetErrorMessage={this.getValidationUser}
+                //  onGetErrorMessage={this.getValidationUser}
                 value={this.state.userOffer.userId ? this.state.userOffer.userId.toString() : ""}
-                onChanged={value => { this.setState({ userOffer: { ...this.state.userOffer, userId: value} }); }}
+                onChanged={value => { this.setState({ userOffer: { ...this.state.userOffer, userId: value } }); }}
             />
             <TextField
                 required
                 label="Offer"
                 placeholder="Offer"
-               // style={{ border: this.getValidationStateCommentsNote ? "" : "1px solid #a6a6a6" }}
+                // style={{ border: this.getValidationStateCommentsNote ? "" : "1px solid #a6a6a6" }}
                 onGetErrorMessage={this.getValidationOffer}
                 value={this.state.userOffer.offer ? this.state.userOffer.offer.toString() : ""}
                 onChanged={value => { this.setState({ userOffer: { ...this.state.userOffer, offer: value } }); }}
@@ -362,16 +364,16 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
                 placeholder="Description"
                 // style={{ border: this.getValidationStateCommentsNote ? "" : "1px solid #a6a6a6" }}
                 value={this.state.description ? this.state.description : ""}
-               // onChanged={value => { this.setState({ userOffer: { ...this.state.userOffer, offer: parseInt(value) } }); }}
+            // onChanged={value => { this.setState({ userOffer: { ...this.state.userOffer, offer: parseInt(value) } }); }}
             />
 
 
             <DialogFooter>
                 <PrimaryButton disabled={this.state.userOffer.offer && this.state.userOffer.productId && this.state.userOffer.userId && this.getValidationOffer() == "" ? false : true} onClick={() => { this.addNewOffer(this.state.userOffer); this._closeDialog(true); }} text="Add Offer" />
-                <DefaultButton onClick={() => { { this.setState({ userOffer: { ...this.state.userOffer, userId: "", productId: "", offer: 0, endTime : null } }); this._closeDialog(true); } }} text="Cancel" />
+                <DefaultButton onClick={() => { { this.setState({ userOffer: { ...this.state.userOffer, userId: "", productId: "", offer: 0, endTime: null } }); this._closeDialog(true); } }} text="Cancel" />
             </DialogFooter>
         </Dialog>
-                };
+    };
 
     private renderDeliveriesList() {
         return <DetailsList
@@ -388,7 +390,7 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
                     name: "Name",
                     isResizable: true,
                     onRender: (item: App.Auction) => {
-                        return <p>{item.productName ? item.productName  : ""}</p>;
+                        return <p>{item.productName ? item.productName : ""}</p>;
                     },
                     onColumnClick: () => this.sortColumn("name"),
                     isSorted: this.props.column === "name",
@@ -445,13 +447,13 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
                     isResizable: true,
                     onRender: (item: App.Auction) => {
                         return <IconButton onClick={() => { this.setState({ userOffer: { ...this.state.userOffer, userId: "", productId: item.productId, offer: 0, endTime: item.biddingEndDate }, description: item.productDescription }); this._showDialog(false); }} iconProps={{ iconName: "Money" }} />;
-                    
-                }
-                    
-                    
+
+                    }
+
+
                 }
             ]}
-            />;
+        />;
     }
     public renderOverFow() {
 
@@ -532,7 +534,7 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
                                                 placeholder="Bidding End Date"
                                                 value={this.state.endDate!}
                                                 onSelectDate={this.endDateChangeFabric}
-                                               // formatDate={this.formatDate}
+                                            // formatDate={this.formatDate}
                                             // disableAutoFocus={this.props.deliverydate ? true : false}
                                             />;
                                         }
@@ -561,6 +563,9 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
             />
         );
     }
+    private _onCheckboxChange(ev: React.FormEvent<HTMLElement>, isChecked: boolean): void {
+        console.log(`The option has been changed to ${isChecked}.`);
+    }
 
     private _onRenderItem(item: IOverflowSetItemProps): JSX.Element {
         if (item.onRender) {
@@ -577,20 +582,8 @@ class AuctionList extends React.Component<AuctionListProps, IAuctionListState> {
             />
         );
     }
-
+    
 }
-
-//const copyStyleOfDatePickerClearButton = {
-//    backgroundColor: "#eee",
-//    opacity: 1,
-//    color: "#555",
-//    width: 32
-//};
-
-//const filterInput = {
-//    width: 120
-//};
-
 export default connect(
     (state: ApplicationState) => state.auctions,
     Auctions.actionCreators

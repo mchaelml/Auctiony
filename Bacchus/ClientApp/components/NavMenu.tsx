@@ -3,7 +3,6 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Nav } from "office-ui-fabric-react/lib/Nav";
 import { connect } from "react-redux";
 import { ApplicationState } from "../store";
-import * as CounterStore from '../store/Counter';
 
 
 

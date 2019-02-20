@@ -41,6 +41,9 @@
     <None Update="ClientApp\models\Auction.ts">
       <CustomToolNamespace>Models\Auction.cs</CustomToolNamespace>
     </None>
+    <None Update="ClientApp\models\NDbContext.ts">
+      <CustomToolNamespace>Models\NDbContext.cs</CustomToolNamespace>
+    </None>
     <None Update="ClientApp\models\UserOffer.ts">
       <CustomToolNamespace>Models\UserOffer.cs</CustomToolNamespace>
     </None>
